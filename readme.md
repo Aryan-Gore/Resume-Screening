@@ -50,17 +50,17 @@ An AI-powered system that:
 ### 2.1 High-Level Architecture
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    Resume Screening AI System                │
+│                    Resume Screening AI System               │
 ├─────────────────────────────────────────────────────────────┤
-│                                                               │
-│  ┌───────────────┐  ┌──────────────┐  ┌─────────────────┐  │
-│  │   Input Layer │  │ Processing   │  │  Output Layer   │  │
-│  │               │  │   Layer      │  │                 │  │
-│  │ - Job Desc    │→ │ - NLP        │→ │ - Rankings     │  │
-│  │ - Resumes     │  │ - ML Models  │  │ - Reports      │  │
-│  │               │  │ - Scoring    │  │ - Visualizations│  │
-│  └───────────────┘  └──────────────┘  └─────────────────┘  │
-│                                                               │
+│                                                             │
+│  ┌───────────────┐  ┌──────────────┐  ┌─────────────────┐   │
+│  │   Input Layer │  │ Processing   │  │  Output Layer   │   │
+│  │               │  │   Layer      │  │                 │   │
+│  │ - Job Desc    │→ │ - NLP        │→ │ - Rankings      │   │
+│  │ - Resumes     │  │ - ML Models  │  │ - Reports       │   │
+│  │               │  │ - Scoring    │  │ - Visualizations│   │
+│  └───────────────┘  └──────────────┘  └─────────────────┘   │
+│                                                             │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -215,8 +215,8 @@ ai.load_job_description(job_description)
 
 # Step 3: Load resumes
 resumes = [
-    {'name': 'John Doe', 'text': 'Resume text...'},
-    {'name': 'Jane Smith', 'text': 'Resume text...'}
+    {'name': 'xyz', 'text': 'Resume text...'},
+    {'name': 'abc', 'text': 'Resume text...'}
 ]
 ai.load_resumes(resumes)
 
@@ -566,8 +566,8 @@ def test_performance():
 
 **Document Version**: 1.0  
 **Last Updated**: May 2026  
-**Author**: Resume Screening AI Team  
-**License**: MIT
+**Author**: Aryan Gore 
+**License**:  ************
 
 ---
 END OF FILE
