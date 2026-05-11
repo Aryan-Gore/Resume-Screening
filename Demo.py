@@ -44,7 +44,7 @@ resumes = [
     },
 
     {
-        'name': 'aman',
+        'name': 'Aman',
         'text': 'Masters in AI, 6 years ML, Python, TensorFlow, NLP expert...'
     }
 
