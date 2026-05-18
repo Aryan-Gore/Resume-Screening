@@ -250,7 +250,7 @@ class ResumeScreeningAI:
             'processed': self.preprocessor.preprocess(job_description_text),
             'skills': self.skill_extractor.extract_skills(job_description_text)
         }
-        print("✓ Job description loaded and processed successfully")
+        print("Job description loaded and processed successfully")
     
     def load_resumes(self, resumes_list):
         """
