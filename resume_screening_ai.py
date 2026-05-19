@@ -282,7 +282,7 @@ class ResumeScreeningAI:
             })
         
         self.resumes_data = pd.DataFrame(processed_resumes)
-        print(f"✓ {len(resumes_list)} resumes loaded and processed successfully")
+        print(f" {len(resumes_list)} resumes loaded and processed successfully")
     
     def calculate_text_similarity(self):
         """

@@ -1,0 +1,4 @@
+Candidate,Text_Similarity,Skill_Match,Experience_Score,Education_Score,Final_Score,Technical_Skills,Soft_Skills,Years_Experience,Education_Level,Rank
+Aditya,20.32,30.0,35.0,100.0,34.13,3,0,7,PhD,1
+Aman,10.04,30.0,30.0,80.0,27.02,3,0,6,Masters,2
+Vansh,2.05,9.09,20.0,60.0,13.55,2,0,4,Bachelors,3
