@@ -1,5 +1,5 @@
 
-        async function analyzeResume() {
+    async function analyzeResume() {
 
     const jobDescription = document.getElementById("jobDesc").value;
 
@@ -65,20 +65,26 @@ function displayResults(results) {
         // Show page function
         function showPage(pageId) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+
             document.getElementById(pageId).classList.add('active');
             
             document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+
             if (pageId === 'dashboard') document.querySelectorAll('.nav-link')[0].classList.add('active');
+
             if (pageId === 'job-description' || pageId === 'resume-upload') {
                 document.querySelectorAll('.nav-link')[1].classList.add('active');
             }
+
             if (pageId === 'analytics') document.querySelectorAll('.nav-link')[2].classList.add('active');
         }
 
         // Dark mode toggle
         function toggleDarkMode() {
             document.body.classList.toggle('dark-mode');
+
             const isDark = document.body.classList.contains('dark-mode');
+            
             document.querySelector('.dark-toggle').textContent = isDark ? '☀️' : '🌙';
         }
 
