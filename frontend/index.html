@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RecruitAI - Intelligent Resume Screening Platform</title>
+     <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                 RecruitAI
+            </div>
+            <ul class="nav-menu">
+                <li><a class="nav-link active" onclick="showPage('dashboard')">Dashboard</a></li>
+                <li><a class="nav-link" onclick="showPage('job-description')">New Analysis</a></li>
+                <li><a class="nav-link" onclick="showPage('analytics')">Analytics</a></li>
+            </ul>
+            <button class="dark-toggle" onclick="toggleDarkMode()">🌙</button>
+        </div>
+    </nav>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <span id="notificationText"></span>
+    </div>
+
+    <div class="container">
+        <!-- PAGE 1: DASHBOARD -->
+        <div class="page active" id="dashboard">
+            <div class="hero">
+                <h1> AI-Powered Resume Screening</h1>
+                <p>Automatically analyze and rank candidates with advanced NLP and Machine Learning</p>
+                <button class="btn btn-primary" onclick="showPage('job-description')">Start Screening</button>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #dbeafe;">📄</div>
+                    <div class="stat-value" id="totalResumes">0</div>
+                    <div class="stat-label">Total Resumes Analyzed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #d1fae5;">⭐</div>
+                    <div class="stat-value" id="topMatch">0%</div>
+                    <div class="stat-label">Top Match Score</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #fce7f3;">👥</div>
+                    <div class="stat-value" id="candidatesScreened">0</div>
+                    <div class="stat-label">Candidates Screened</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #fef3c7;">📊</div>
+                    <div class="stat-value" id="avgSkillMatch">0%</div>
+                    <div class="stat-label">Avg Skill Match</div>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="chart-container">
+                    <div class="chart-title">Recent Activity</div>
+                    <div id="recentActivity">
+                        <p style="color: var(--gray); text-align: center; padding: 2rem;">No recent activity. Start your first screening!</p>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-title">Quick Actions</div>
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <button class="btn btn-secondary" onclick="showPage('job-description')">📝 New Screening</button>
+                        <button class="btn btn-outline" onclick="showPage('analytics')">📊 View Analytics</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 2: JOB DESCRIPTION -->
+        <div class="page" id="job-description">
+            <h1>📋 Job Description & Configuration</h1>
+            <p style="color: var(--gray); margin-bottom: 2rem;">Enter the job description and configure scoring weights</p>
+
+            <div class="grid-2">
+                <div>
+                    <div class="form-group">
+                        <label>Job Description *</label>
+                        <textarea id="jobDescInput" placeholder="Paste your job description here...
+
+Senior Software Engineer
+
+Requirements:
+- 5+ years of Python experience
+- Machine Learning expertise
+- Strong problem-solving skills
+- Master's or PhD preferred"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Upload Job Description (Optional)</label>
+                        <div class="upload-area" onclick="document.getElementById('jobFileInput').click()">
+                            <div class="upload-icon">📁</div>
+                            <p>Click to upload or drag and drop</p>
+                            <p style="font-size: 0.85rem; color: var(--gray);">TXT, PDF supported</p>
+                        </div>
+                        <input type="file" id="jobFileInput" style="display: none;" accept=".txt,.pdf">
+                    </div>
+                </div>
+
+                <div>
+                    <h3>⚙️ Scoring Weights</h3>
+                    <p style="color: var(--gray); margin-bottom: 1rem; font-size: 0.9rem;">Adjust importance of each factor (must total 100%)</p>
+                    
+                    <div class="weight-slider">
+                        <div class="slider-header">
+                            <span>Text Similarity</span>
+                            <span id="textSimValue" style="color: var(--primary); font-weight: bold;">40%</span>
+                        </div>
+                        <input type="range" id="textSim" min="0" max="100" value="40" oninput="updateWeights()">
+                    </div>
+
+                    <div class="weight-slider">
+                        <div class="slider-header">
+                            <span>Skill Match</span>
+                            <span id="skillMatchValue" style="color: var(--primary); font-weight: bold;">30%</span>
+                        </div>
+                        <input type="range" id="skillMatch" min="0" max="100" value="30" oninput="updateWeights()">
+                    </div>
+
+                    <div class="weight-slider">
+                        <div class="slider-header">
+                            <span>Experience</span>
+                            <span id="experienceValue" style="color: var(--primary); font-weight: bold;">20%</span>
+                        </div>
+                        <input type="range" id="experience" min="0" max="100" value="20" oninput="updateWeights()">
+                    </div>
+
+                    <div class="weight-slider">
+                        <div class="slider-header">
+                            <span>Education</span>
+                            <span id="educationValue" style="color: var(--primary); font-weight: bold;">10%</span>
+                        </div>
+                        <input type="range" id="education" min="0" max="100" value="10" oninput="updateWeights()">
+                    </div>
+
+                    <div id="weightError" style="color: var(--danger); text-align: center; margin-top: 1rem; display: none;">
+                        ⚠️ Total must equal 100%
+                    </div>
+
+                    <div style="text-align: center; padding: 1rem; background: var(--light-gray); border-radius: 8px; margin-top: 1rem;">
+                        <strong>Total: <span id="totalWeight">100</span>%</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 2rem;">
+                <button class="btn btn-secondary" onclick="showPage('resume-upload')" style="padding: 1rem 3rem;">
+                    Next: Upload Resumes →
+                </button>
+            </div>
+        </div>
+
+        <!-- PAGE 3: RESUME UPLOAD -->
+        <div class="page" id="resume-upload">
+            <h1>📄 Upload Candidate Resumes</h1>
+            <p style="color: var(--gray); margin-bottom: 2rem;">Upload multiple resumes for analysis (PDF, DOCX, TXT)</p>
+
+            <div class="upload-area" id="resumeDropZone">
+                <div class="upload-icon">☁️</div>
+                <h3>Drag & Drop Resumes Here</h3>
+                <p>or</p>
+                <button class="btn btn-primary" onclick="document.getElementById('resumeFileInput').click()">
+                    Browse Files
+                </button>
+                <p style="font-size: 0.85rem; color: var(--gray); margin-top: 1rem;">
+                    Supported formats: PDF, DOCX, TXT • Max 10MB per file
+                </p>
+            </div>
+            <input type="file" id="resumeFileInput" multiple accept=".pdf,.docx,.txt" style="display: none;">
+
+            <div class="file-list" id="fileList"></div>
+
+            <div style="text-align: center; margin-top: 2rem; display: flex; gap: 1rem; justify-content: center;">
+                <button class="btn btn-outline" onclick="showPage('job-description')">← Back</button>
+                <button class="btn btn-secondary" onclick="analyzeResumes()" id="analyzeBtn" disabled style="padding: 1rem 3rem;">
+                    🚀 Analyze Candidates
+                </button>
+            </div>
+        </div>
+
+        <!-- PAGE 4: RESULTS -->
+        <div class="page" id="results">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <h1>📊 Candidate Rankings</h1>
+                <div style="display: flex; gap: 1rem;">
+                    <button class="btn btn-outline" onclick="exportToCSV()">📥 Export CSV</button>
+                    <button class="btn btn-outline" onclick="showPage('dashboard')">🏠 Dashboard</button>
+                </div>
+            </div>
+
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="🔍 Search candidates..." oninput="searchCandidates(this.value)">
+                <select onchange="filterByScore(this.value)" style="width: 200px;">
+                    <option value="all">All Scores</option>
+                    <option value="excellent">Excellent (80%+)</option>
+                    <option value="good">Good (60-80%)</option>
+                    <option value="average">Average (<60%)</option>
+                </select>
+            </div>
+
+            <div class="table-container">
+                <table id="resultsTable">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Candidate</th>
+                            <th>Final Score</th>
+                            <th>Text Sim</th>
+                            <th>Skills</th>
+                            <th>Experience</th>
+                            <th>Education</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resultsBody">
+                        <!-- Results will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- PAGE 5: CANDIDATE DETAIL -->
+        <div class="page" id="candidate-detail">
+            <button class="btn btn-outline" onclick="showPage('results')" style="margin-bottom: 1rem;">← Back to Results</button>
+            
+            <div class="candidate-profile">
+                <div class="profile-header">
+                    <div class="avatar" id="candidateAvatar">JD</div>
+                    <div style="flex: 1;">
+                        <h2 id="candidateName">John Doe</h2>
+                        <div style="margin: 0.5rem 0;">
+                            <span class="recommendation-badge badge-excellent" id="candidateBadge">Highly Recommended</span>
+                        </div>
+                        <div style="display: flex; gap: 2rem; margin-top: 1rem;">
+                            <div>
+                                <div style="font-size: 2rem; font-weight: bold; color: var(--primary);" id="candidateScore">85.5%</div>
+                                <div style="color: var(--gray); font-size: 0.9rem;">Overall Match</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 1.5rem; font-weight: bold;" id="candidateExp">5</div>
+                                <div style="color: var(--gray); font-size: 0.9rem;">Years Experience</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 1.5rem; font-weight: bold;" id="candidateEdu">Masters</div>
+                                <div style="color: var(--gray); font-size: 0.9rem;">Education</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid-2" style="margin-top: 2rem;">
+                    <div>
+                        <h3>Technical Skills</h3>
+                        <div class="skills-container" id="technicalSkills">
+                            <!-- Skills will be inserted here -->
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Soft Skills</h3>
+                        <div class="skills-container" id="softSkills">
+                            <!-- Skills will be inserted here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 2rem;">
+                    <h3>Score Breakdown</h3>
+                    <div class="grid-2" style="margin-top: 1rem;">
+                        <div class="weight-slider">
+                            <div class="slider-header">
+                                <span>Text Similarity</span>
+                                <span id="detailTextSim" style="color: var(--primary); font-weight: bold;">88%</span>
+                            </div>
+                            <div class="score-bar">
+                                <div class="score-fill" id="detailTextSimBar" style="width: 88%">88%</div>
+                            </div>
+                        </div>
+                        <div class="weight-slider">
+                            <div class="slider-header">
+                                <span>Skill Match</span>
+                                <span id="detailSkillMatch" style="color: var(--primary); font-weight: bold;">85%</span>
+                            </div>
+                            <div class="score-bar">
+                                <div class="score-fill" id="detailSkillMatchBar" style="width: 85%">85%</div>
+                            </div>
+                        </div>
+                        <div class="weight-slider">
+                            <div class="slider-header">
+                                <span>Experience Score</span>
+                                <span id="detailExperience" style="color: var(--primary); font-weight: bold;">75%</span>
+                            </div>
+                            <div class="score-bar">
+                                <div class="score-fill" id="detailExperienceBar" style="width: 75%">75%</div>
+                            </div>
+                        </div>
+                        <div class="weight-slider">
+                            <div class="slider-header">
+                                <span>Education Score</span>
+                                <span id="detailEducation" style="color: var(--primary); font-weight: bold;">80%</span>
+                            </div>
+                            <div class="score-bar">
+                                <div class="score-fill" id="detailEducationBar" style="width: 80%">80%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 2rem;">
+                    <h3>AI Insights</h3>
+                    <div style="background: var(--light-gray); padding: 1.5rem; border-radius: 8px; border-left: 4px solid var(--primary);">
+                        <p id="aiInsights">This candidate demonstrates strong alignment with the job requirements, particularly in technical skills and experience level.</p>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button class="btn btn-secondary">📄 Download Full Report</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 6: ANALYTICS -->
+        <div class="page" id="analytics">
+            <h1>📈 Analytics Dashboard</h1>
+            <p style="color: var(--gray); margin-bottom: 2rem;">Resume screening statistics and insights</p>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #dbeafe;">📊</div>
+                    <div class="stat-value">78.5%</div>
+                    <div class="stat-label">Average Match Score</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #d1fae5;">✅</div>
+                    <div class="stat-value">12</div>
+                    <div class="stat-label">Highly Qualified</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #fce7f3;">⏱️</div>
+                    <div class="stat-value">2.3h</div>
+                    <div class="stat-label">Time Saved</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #fef3c7;">🎯</div>
+                    <div class="stat-value">89%</div>
+                    <div class="stat-label">Hiring Success Rate</div>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="chart-container">
+                    <div class="chart-title">Score Distribution</div>
+                    <canvas id="scoreChart" style="max-height: 300px;"></canvas>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-title">Top Skills Required</div>
+                    <canvas id="skillsChart" style="max-height: 300px;"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   <script src="script.js"></script>
+</body>
+</html>

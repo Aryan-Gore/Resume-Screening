@@ -1,0 +1,15 @@
+Rahul Sharma
+
+Frontend Developer
+
+Skills:
+JavaScript, React, Node.js, HTML, CSS, MongoDB
+
+Experience:
+1 year experience in frontend development.
+
+Education:
+B.Tech in Information Technology
+
+Soft Skills:
+Creativity, Teamwork, Problem Solving

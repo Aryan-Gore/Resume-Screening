@@ -5,7 +5,7 @@ Resume Screening AI - Demo Application
 Demonstrates the complete workflow with sample data
 """
 
-from resume_screening_ai import (
+from Backend.resume_screening_ai import (
     ResumeScreeningAI,
     ResumeScreeningVisualizer,
     print_results_table
